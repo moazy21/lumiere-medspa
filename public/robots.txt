@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lumiere-medspa.example.com/sitemap-index.xml
+Sitemap: https://lumiere-medspa-inky.vercel.app/sitemap-index.xml
