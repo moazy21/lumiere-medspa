@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: #FAF6F0;
+  --surface-warm: #F3EDE3;
+  --ink: #152824;
+  --muted: rgba(21, 40, 36, 0.68);
+  --line: #E4DACA;
+  --accent: #152824;
+  --gold: #8A6D3F;
+}
+
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+::selection { background: #152824; color: #FAF6F0; }
+
+/* Senior focus discipline */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid #152824;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Skip link */
+.skip-link { position: absolute; left: -999px; top: 0; }
+.skip-link:focus { left: 12px; top: 12px; z-index: 100; background: #152824; color: #FAF6F0; padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; }
+
+/* Reveal: opacity + translate only, staggered. No blur wash. */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s cubic-bezier(0.16,1,0.3,1), transform .65s cubic-bezier(0.16,1,0.3,1); transition-delay: var(--d, 0ms); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .marquee-track { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* Marquee: one per site, pauses on hover */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee 36s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Cards: restrained lift, tinted shadow */
+.treatment-card img { transition: transform .7s cubic-bezier(0.16,1,0.3,1); }
+.treatment-card:hover img { transform: scale(1.04); }
+.treatment-card { transition: transform .35s cubic-bezier(0.16,1,0.3,1), box-shadow .35s, border-color .35s; }
+.treatment-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px -20px rgba(21,40,36,.28); border-color: #D8C9B2; }
+.treatment-card:active { transform: translateY(0) scale(0.99); }
+
+/* Buttons: single intent shape, tactile */
+.btn-primary, .btn-ghost { transition: transform .18s ease, background-color .25s ease; }
+.btn-primary:active, .btn-ghost:active { transform: translateY(1px) scale(0.98); }
+
+/* Before/after */
+.ba-slider input[type="range"] { accent-color: #152824; }

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site.ts';
+---
+<BaseLayout title="About" description="Provider-led med spa in Denver. Private rooms, hospital-grade hygiene, natural results.">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 grid gap-8 lg:grid-cols-2 items-center">
+    <div>
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-[58px] lg:leading-[1.05]">A calm room and a clear plan.</h1>
+      <p class="mt-4 text-ink/70 max-w-[50ch]">Our RiNo studio is built for quiet visits, not waiting-room crowds. Every treatment happens in a private room, on your schedule.</p>
+      <ul class="mt-6 space-y-3 text-[15px] font-semibold">
+        <li class="flex items-center gap-2.5"><span class="w-6 h-6 grid place-items-center rounded-full bg-sage"><Icon name="check" size={13} /></span>Private treatment rooms, never shared</li>
+        <li class="flex items-center gap-2.5"><span class="w-6 h-6 grid place-items-center rounded-full bg-sage"><Icon name="check" size={13} /></span>Hospital-grade hygiene between every visit</li>
+        <li class="flex items-center gap-2.5"><span class="w-6 h-6 grid place-items-center rounded-full bg-sage"><Icon name="check" size={13} /></span>Street parking and a lot behind the building</li>
+      </ul>
+    </div>
+    <div class="rounded-[22px] overflow-hidden aspect-[4/3] bg-cream">
+      <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1000&q=80&auto=format&fit=crop" alt="Spa studio interior with daylight" width="1000" height="750" decoding="async" class="w-full h-full object-cover" />
+    </div>
+  </section>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid gap-8 md:grid-cols-2 items-center">
+    <div class="rounded-[22px] overflow-hidden aspect-square max-w-md w-full mx-auto bg-cream">
+      <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&auto=format&fit=crop" alt="Medical director portrait" loading="lazy" decoding="async" width="800" height="800" class="w-full h-full object-cover" />
+    </div>
+    <div>
+      <h2 class="font-display text-3xl sm:text-4xl">Dr. Maya Chen, MD</h2>
+      <p class="text-sm text-ink/60 mt-1">Medical director, board-certified, 9 years in practice</p>
+      <p class="mt-4 font-display text-xl italic leading-relaxed pb-1">&ldquo;My rule is simple. If I would not do it to my own skin, I will not do it to yours.&rdquo;</p>
+      <p class="mt-3 text-sm text-ink/70">Every treatment plan is reviewed by Dr. Chen. Honest recommendations, no upsell.</p>
+      <a href="/contact" class="mt-6 inline-block bg-forest text-ivory font-semibold px-7 py-3 rounded-full text-sm">Book with our team</a>
+    </div>
+  </section>
+</BaseLayout>

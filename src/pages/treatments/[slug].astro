@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { treatments } from '../../data/site.ts';
+export function getStaticPaths() {
+  return treatments.map(t => ({ params: { slug: t.slug } }));
+}
+const { slug } = Astro.params;
+const t = treatments.find(x => x.slug === slug) ?? treatments[0];
+const related = treatments.filter(x => x.slug !== t.slug && x.category === t.category).slice(0,3);
+---
+<BaseLayout title={t.title} description={`${t.title}: from $${t.priceFrom}, ${t.duration}. ${t.excerpt}`}>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 grid gap-8 lg:grid-cols-2 items-start">
+    <div class="rounded-[22px] overflow-hidden aspect-[4/3] bg-cream">
+      <img src={t.image} alt={t.title} width="1000" height="750" decoding="async" class="w-full h-full object-cover" />
+    </div>
+    <div>
+      <a href="/treatments" class="text-sm font-bold underline underline-offset-4">All treatments</a>
+      <p class="mt-4 text-xs font-bold uppercase tracking-widest text-ink/60">{t.category} · {t.duration} · Downtime {t.downtime}</p>
+      <h1 class="font-display text-4xl sm:text-5xl mt-2">{t.title}</h1>
+      <p class="mt-3 text-ink/70">{t.excerpt}</p>
+      <p class="mt-4 font-display text-4xl">From ${t.priceFrom}</p>
+      <ul class="mt-6 space-y-2.5">
+        {t.benefits.map(b => <li class="flex gap-3 text-[15px]"><span class="w-6 h-6 shrink-0 grid place-items-center rounded-full bg-sage"><Icon name="check" size={13} /></span>{b}</li>)}
+      </ul>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/contact" class="bg-forest text-ivory font-semibold px-7 py-3.5 rounded-full">Book consultation</a>
+        <a href="/membership" class="border border-forest/20 font-semibold px-7 py-3.5 rounded-full">Save with membership</a>
+      </div>
+      <p class="mt-4 text-xs text-ink/60">Exact quote confirmed at free consult. Two-week follow-up included.</p>
+    </div>
+  </section>
+  {related.length > 0 && (
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+      <h2 class="font-display text-2xl sm:text-3xl">Pairs well with</h2>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {related.map(r => <a href={`/treatments/${r.slug}`} class="bg-white border border-stonewarm rounded-[20px] overflow-hidden block"><img src={r.image} alt={r.title} loading="lazy" class="aspect-[16/10] w-full object-cover" /><div class="p-5"><p class="font-display text-lg">{r.title}</p><p class="text-sm text-ink/60">From ${r.priceFrom} · {r.duration}</p></div></a>)}
+      </div>
+    </section>
+  )}
+</BaseLayout>

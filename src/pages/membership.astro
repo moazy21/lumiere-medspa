@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { faqs } from '../data/site.ts';
+const tiers = [
+  { name: 'Glow Essential', price: 199, perks: ['1 signature facial / month','5% off extras','Member booking window'] },
+  { name: 'Glow Plus', price: 399, popular: true, perks: ['1 premium treatment / month','10% off extras','Priority booking','Bring a guest 2x / year'] },
+  { name: 'Glow Elite', price: 699, perks: ['2 premium treatments / month','15% off extras','First-access new devices','Annual skin plan review'] },
+];
+---
+<BaseLayout title="Membership" description="Med spa membership: monthly treatments, exclusive pricing, cancel anytime.">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 text-center">
+    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl">One visit or a monthly reset.</h1>
+    <p class="mt-3 text-ink/70 max-w-[50ch] mx-auto">Members get exclusive pricing, monthly treatments, and perks that make consistent care effortless. Cancel anytime.</p>
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 text-left items-stretch">
+      <div class="bg-white border border-stonewarm rounded-[24px] p-7">
+        <p class="font-semibold">Single visit</p>
+        <p class="font-display text-4xl mt-2">From $129</p>
+        <ul class="mt-4 text-sm space-y-2.5 text-ink/70"><li class="flex gap-2"><span class="mt-0.5"><Icon name="check" size={14} /></span>Free 15 minute consultation</li><li class="flex gap-2"><span class="mt-0.5"><Icon name="check" size={14} /></span>Exact quote before you book</li><li class="flex gap-2"><span class="mt-0.5"><Icon name="check" size={14} /></span>Two week follow-up included</li></ul>
+        <a href="/contact" class="mt-6 block text-center border border-forest/20 font-semibold py-3 rounded-full text-sm">Book a visit</a>
+      </div>
+      {tiers.map(t => (
+        <div class={`rounded-[24px] p-7 border ${t.popular ? 'bg-forest text-ivory border-forest relative' : 'bg-white border-stonewarm'}`}>
+          {t.popular && <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-champagne text-forest text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">Most popular</span>}
+          <p class="font-semibold">{t.name}</p>
+          <p class="font-display text-5xl mt-2">${t.price}<span class="text-base">/mo</span></p>
+          <ul class={`mt-4 text-sm space-y-2 ${t.popular ? 'text-ivory/80' : 'text-ink/70'}`}>
+            {t.perks.map(p => <li class="flex gap-2"><span class="mt-0.5"><Icon name="check" size={14} /></span>{p}</li>)}
+          </ul>
+          <a href="/contact" class={`mt-6 block text-center font-semibold py-3 rounded-full text-sm ${t.popular ? 'bg-ivory text-forest' : 'bg-forest text-ivory'}`}>Start membership</a>
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-14">
+    <h2 class="font-display text-2xl sm:text-3xl text-center">Membership questions</h2>
+    <div class="mt-6 divide-y divide-stonewarm border-y border-stonewarm">
+      {faqs.slice(0,4).map(f => <details class="py-4"><summary class="font-semibold cursor-pointer list-none">{f.q}</summary><p class="mt-2 text-sm text-ink/70">{f.a}</p></details>)}
+    </div>
+  </section>
+</BaseLayout>

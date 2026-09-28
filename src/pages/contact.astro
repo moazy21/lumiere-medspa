@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site, treatments } from '../data/site.ts';
+---
+<BaseLayout title="Book a consultation" description="Book your free 15-minute med spa consultation. No pressure, no obligation.">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 grid gap-10 lg:grid-cols-2">
+    <div>
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-[54px] lg:leading-[1.05]">Ready to glow? Let's get you booked.</h1>
+      <p class="mt-3 text-ink/70">Free consultation in under 60 seconds. Same day reply, no obligation.</p>
+      <div class="mt-6 bg-white border border-stonewarm rounded-[20px] p-6 text-sm space-y-2">
+        <p class="font-bold">{site.address}</p>
+        {site.hours.map(h => <p class="flex justify-between text-ink/70"><span>{h[0]}</span><span>{h[1]}</span></p>)}
+        <a href={site.phoneHref} class="block font-bold text-lg pt-2">{site.phone}</a>
+      </div>
+    </div>
+    <div class="bg-white border border-stonewarm rounded-[24px] p-6 sm:p-8 shadow-card h-fit">
+      <form id="bookForm" class="grid gap-4" novalidate>
+        <div>
+          <label for="name" class="text-sm font-semibold">Full name</label>
+          <input id="name" required min-h class="mt-1.5 w-full border border-forest/20 rounded-xl px-4 py-3 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-forest" placeholder="Jane Doe" />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="phone" class="text-sm font-semibold">Phone</label>
+            <input id="phone" type="tel" required class="mt-1.5 w-full border border-forest/20 rounded-xl px-4 py-3 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-forest" placeholder="(303) 555-0000" />
+          </div>
+          <div>
+            <label for="email" class="text-sm font-semibold">Email</label>
+            <input id="email" type="email" required class="mt-1.5 w-full border border-forest/20 rounded-xl px-4 py-3 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-forest" placeholder="jane@email.com" />
+          </div>
+        </div>
+        <div>
+          <label for="treatment" class="text-sm font-semibold">Treatment of interest</label>
+          <select id="treatment" class="mt-1.5 w-full border border-forest/20 rounded-xl px-4 py-3 min-h-[48px] bg-white">
+            <option>Not sure — need consult</option>
+            {treatments.map(t => <option>{t.title}</option>)}
+            <option>Membership</option>
+          </select>
+        </div>
+        <div>
+          <label for="msg" class="text-sm font-semibold">Anything we should know? <span class="font-normal text-ink/60">(optional)</span></label>
+          <textarea id="msg" rows="3" class="mt-1.5 w-full border border-forest/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest" placeholder="Skin concerns, timeline, questions..."></textarea>
+        </div>
+        <p id="formError" class="hidden text-sm font-semibold text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-3">Please add your name and a valid phone or email.</p>
+        <button type="submit" id="submitBtn" class="bg-forest text-ivory font-semibold py-4 rounded-full hover:bg-pine transition min-h-[52px]">Request my free consultation</button>
+        <p class="text-xs text-ink/60 text-center">We reply same day. No spam, no pressure.</p>
+      </form>
+      <div id="formSuccess" class="hidden text-center py-10">
+        <p class="w-14 h-14 mx-auto grid place-items-center rounded-full bg-sage"><Icon name="check" size={22} /></p>
+        <h2 class="font-display text-2xl mt-4">Request received.</h2>
+        <p class="text-sm text-ink/70 mt-2">We’ll text you within one business day to confirm your time.</p>
+      </div>
+    </div>
+  </section>
+<script>
+  const form = document.getElementById('bookForm') as HTMLFormElement;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = (document.getElementById('name') as HTMLInputElement).value.trim();
+    const phone = (document.getElementById('phone') as HTMLInputElement).value.trim();
+    const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+    const err = document.getElementById('formError')!;
+    const ok = name.length > 1 && (phone.length >= 7 || /.+@.+\..+/.test(email));
+    if (!ok) { err.classList.remove('hidden'); return; }
+    err.classList.add('hidden');
+    const btn = document.getElementById('submitBtn') as HTMLButtonElement;
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    setTimeout(() => {
+      form.classList.add('hidden');
+      document.getElementById('formSuccess')!.classList.remove('hidden');
+    }, 900);
+  });
+</script>
+</BaseLayout>
